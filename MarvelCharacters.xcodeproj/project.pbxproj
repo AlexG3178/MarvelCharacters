@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A0F17B828C9F08000B76B14 /* CharactersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F17B728C9F08000B76B14 /* CharactersViewModel.swift */; };
+		5A0F17BA28C9F4A200B76B14 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F17B928C9F4A200B76B14 /* ApiResponse.swift */; };
+		5A0F17BC28C9FD2600B76B14 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F17BB28C9FD2600B76B14 /* Utils.swift */; };
+		5A0F17BF28CA21B700B76B14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F17BE28CA21B700B76B14 /* Extensions.swift */; };
 		5ADCC66E28C9DF7400B2DA84 /* MarvelCharactersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCC66D28C9DF7400B2DA84 /* MarvelCharactersApp.swift */; };
 		5ADCC67028C9DF7400B2DA84 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCC66F28C9DF7400B2DA84 /* ContentView.swift */; };
 		5ADCC67228C9DF7500B2DA84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ADCC67128C9DF7500B2DA84 /* Assets.xcassets */; };
@@ -34,6 +38,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A0F17B728C9F08000B76B14 /* CharactersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewModel.swift; sourceTree = "<group>"; };
+		5A0F17B928C9F4A200B76B14 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
+		5A0F17BB28C9FD2600B76B14 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		5A0F17BD28CA1E2000B76B14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5A0F17BE28CA21B700B76B14 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5ADCC66A28C9DF7400B2DA84 /* MarvelCharacters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelCharacters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ADCC66D28C9DF7400B2DA84 /* MarvelCharactersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCharactersApp.swift; sourceTree = "<group>"; };
 		5ADCC66F28C9DF7400B2DA84 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,10 +103,15 @@
 		5ADCC66C28C9DF7400B2DA84 /* MarvelCharacters */ = {
 			isa = PBXGroup;
 			children = (
-				5ADCC66D28C9DF7400B2DA84 /* MarvelCharactersApp.swift */,
-				5ADCC66F28C9DF7400B2DA84 /* ContentView.swift */,
+				5A0F17BD28CA1E2000B76B14 /* Info.plist */,
 				5ADCC67128C9DF7500B2DA84 /* Assets.xcassets */,
 				5ADCC67328C9DF7500B2DA84 /* Preview Content */,
+				5ADCC66D28C9DF7400B2DA84 /* MarvelCharactersApp.swift */,
+				5ADCC66F28C9DF7400B2DA84 /* ContentView.swift */,
+				5A0F17B728C9F08000B76B14 /* CharactersViewModel.swift */,
+				5A0F17B928C9F4A200B76B14 /* ApiResponse.swift */,
+				5A0F17BB28C9FD2600B76B14 /* Utils.swift */,
+				5A0F17BE28CA21B700B76B14 /* Extensions.swift */,
 			);
 			path = MarvelCharacters;
 			sourceTree = "<group>";
@@ -257,6 +271,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A0F17BC28C9FD2600B76B14 /* Utils.swift in Sources */,
+				5A0F17BF28CA21B700B76B14 /* Extensions.swift in Sources */,
+				5A0F17B828C9F08000B76B14 /* CharactersViewModel.swift in Sources */,
+				5A0F17BA28C9F4A200B76B14 /* ApiResponse.swift in Sources */,
 				5ADCC67028C9DF7400B2DA84 /* ContentView.swift in Sources */,
 				5ADCC66E28C9DF7400B2DA84 /* MarvelCharactersApp.swift in Sources */,
 			);
@@ -420,6 +438,7 @@
 				DEVELOPMENT_TEAM = S286B3L4GX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarvelCharacters/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -449,6 +468,7 @@
 				DEVELOPMENT_TEAM = S286B3L4GX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarvelCharacters/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
