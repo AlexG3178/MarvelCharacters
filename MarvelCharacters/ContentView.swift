@@ -22,7 +22,7 @@ struct ContentView: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     
-    var searchResults: [CharacterData] {
+    var searchResults: [CharacterResult] {
         if searchText.isEmpty {
             return viewModel.characters
         } else {
@@ -31,7 +31,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         
         if viewModel.isLoading {
             loadingSection
@@ -46,34 +45,36 @@ struct ContentView: View {
                 NavigationView {
                     VStack {
                         Spacer(minLength: 1)
-                        .searchable(text: $searchText, prompt: "Search character")
+                            .searchable(text: $searchText, prompt: "Search character")
                         List {
                             ForEach(searchResults, id: \.id, content: { character in
-                                HStack(alignment: .center , spacing: 10, content: {
-                                    AsyncImage(url: URL(string: "\(character.img.path.secure).\(character.img.ext)"),
-                                               content: { image in
-                                        image.resizable()
-                                    }, placeholder: {
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                                            .scaleEffect(2)
-                                    })
-                                    .frame(width: 120, height: 120)
-                                    .scaledToFit()
-                                    .cornerRadius(10)
-                                    
-                                    VStack {
-                                        Spacer()
-                                        Text(character.name)
-                                            .fontWeight(.semibold)
-                                            .font(.title2)
-                                            .frame(maxWidth: .infinity)
+                                NavigationLink(destination: ComicsView(character), label: {
+                                    HStack(alignment: .center , spacing: 10, content: {
+                                        AsyncImage(url: URL(string: "\(character.img.path.secure).\(character.img.ext)"),
+                                                   content: { image in
+                                            image.resizable()
+                                        }, placeholder: {
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                                .scaleEffect(2)
+                                        })
+                                        .frame(width: 120, height: 120)
+                                        .scaledToFit()
+                                        .cornerRadius(10)
                                         
-                                        Spacer()
-                                        Text(character.description)
-                                        Spacer()
-                                    }
-                                    .lineLimit(2)
+                                        VStack {
+                                            Spacer()
+                                            Text(character.name)
+                                                .fontWeight(.semibold)
+                                                .font(.title2)
+                                                .frame(maxWidth: .infinity)
+                                            
+                                            Spacer()
+                                            Text(character.description)
+                                            Spacer()
+                                        }
+                                        .lineLimit(2)
+                                    })
                                 })
                             })
                             .listRowBackground(Color("backgroundColor"))

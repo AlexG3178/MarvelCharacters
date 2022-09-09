@@ -11,7 +11,7 @@ import Combine
 class CharactersViewModel: ObservableObject {
     
     @Published var isLoading: Bool = true
-    @Published var characters = [CharacterData]()
+    @Published var characters = [CharacterResult]()
     let publicKey = "30dfbad9a125327399061356af3e8e70"
     let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
     var cancellables = Set<AnyCancellable>()
@@ -20,7 +20,6 @@ class CharactersViewModel: ObservableObject {
         loadData()
     }
     
-    // MARK: - Combine
     
     func loadData() {
 
@@ -31,6 +30,8 @@ class CharactersViewModel: ObservableObject {
             print("Invalid URL")
             return
         }
+        
+   // https://gateway.marvel.com/v1/public/characters?ts=0&apikey=30dfbad9a125327399061356af3e8e70&hash=afbdc9d996ff86724a4a8b9b78a36fa6
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -46,10 +47,10 @@ class CharactersViewModel: ObservableObject {
                 }
                 return data
             }
-            .decode(type: Response.self, decoder: JSONDecoder())
+            .decode(type: CharactersResponse.self, decoder: JSONDecoder())
             .sink { completion in
             } receiveValue: { [weak self] resp in
-                self?.characters = resp.responseData.results
+                self?.characters = resp.charactersData.characterResult
                 self?.isLoading = false
             }
             .store(in: &cancellables)
