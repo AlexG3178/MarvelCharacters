@@ -16,9 +16,9 @@ class ComicsViewModel: ObservableObject {
     let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
     var cancellables = Set<AnyCancellable>()
     
-    init(_ comicsURI: String) {
-        loadData(comicsURI)
-    }
+//    init(_ comicsURI: String) {
+//        loadData(comicsURI)
+//    }
         
     func loadData(_ comicsURI: String) {
 
@@ -86,22 +86,22 @@ class ComicsViewModel: ObservableObject {
 //            }
 //        }
         
-        func fetchData(withRequest request: URLRequest, completion: @escaping (_ data: Data?) -> ()) {
-    
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard
-                    let data = data,
-                    error == nil,
-                    let response = response as? HTTPURLResponse,
-                    response.statusCode >= 200 && response.statusCode < 300
-                else {
-                    print("Fetch Error")
-                    completion(nil)
-                    return
-                }
-    
-                completion(data)
-    
-            }.resume()
-        }
+//        func fetchData(withRequest request: URLRequest, completion: @escaping (_ data: Data?) -> ()) {
+//
+//            URLSession.shared.dataTask(with: request) { data, response, error in
+//                guard
+//                    let data = data,
+//                    error == nil,
+//                    let response = response as? HTTPURLResponse,
+//                    response.statusCode >= 200 && response.statusCode < 300
+//                else {
+//                    print("Fetch Error")
+//                    completion(nil)
+//                    return
+//                }
+//
+//                completion(data)
+//
+//            }.resume()
+//        }
 }

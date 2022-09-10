@@ -77,12 +77,12 @@ struct ContentView: View {
                                     })
                                 })
                             })
-                            .listRowBackground(Color("backgroundColor"))
+                            .listRowBackground(Constants.backgroundColor)
                         }
                         .listStyle(.plain)
                     }
                     .navigationTitle("Marvel Characters")
-                    .background(Color("backgroundColor"))
+                    .background(Constants.backgroundColor)
                     .ignoresSafeArea(edges: .bottom)
                 }
             }

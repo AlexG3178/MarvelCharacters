@@ -87,6 +87,7 @@ struct ComicsResult: Codable {
     var description: String?
     var img: ImageUrl
     var dates: [ComicsDate]
+    var characters: Character
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -94,6 +95,7 @@ struct ComicsResult: Codable {
         case description
         case img = "thumbnail"
         case dates
+        case characters
     }
 }
 
@@ -101,4 +103,14 @@ struct ComicsDate: Codable {
     
     var type: String
     var date: String
+}
+
+struct Character: Codable {
+    var items: [CharacterItem]
+}
+
+struct CharacterItem: Codable, Hashable {
+//    var id: Int? = Int.random(in: 1..<1000000)
+    var resourceURI: String
+    var name: String
 }

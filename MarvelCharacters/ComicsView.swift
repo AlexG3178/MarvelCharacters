@@ -16,39 +16,45 @@ struct ComicsView_Previews: PreviewProvider {
 struct ComicsView: View {
     
     let selectedCharacter: CharacterResult
-    let viewModel: ComicsViewModel
+    @ObservedObject var viewModel = ComicsViewModel()
     
     init(_ character: CharacterResult) {
         self.selectedCharacter = character
-        self.viewModel = ComicsViewModel(character.comics.collectionURI)
+        viewModel.loadData(character.comics.collectionURI)
+//        self.viewModel = ComicsViewModel(character.comics.collectionURI)
     }
     
     var body: some View {
         
         VStack {
             
-            AsyncImage(url: URL(string: "\(selectedCharacter.img.path.secure).\(selectedCharacter.img.ext)"),
-                       content: { image in
-                image.resizable()
-            }, placeholder: {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                    .scaleEffect(2)
-            })
-            .scaledToFill()
-            .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 200)
+            Spacer(minLength: 70)
             
-//            VStack {
-//                Spacer()
-//                Text(selectedCharacter.name)
-//                    .fontWeight(.semibold)
-//                    .font(.title2)
-//                    .frame(maxWidth: .infinity)
-//                
-//                Spacer()
-//                Text(selectedCharacter.description)
-//                Spacer()
-//            }
+            ZStack(alignment: .top) {
+                
+                AsyncImage(url: URL(string: "\(selectedCharacter.img.path.secure).\(selectedCharacter.img.ext)"),
+                           content: { image in
+                    image.resizable()
+                }, placeholder: {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                        .scaleEffect(2)
+                })
+                .scaledToFill()
+                .frame(maxWidth: UIScreen.main.bounds.width)
+                
+                VStack(spacing: 20) {
+                    Text("\(selectedCharacter.name) comics")
+                        .fontWeight(.semibold)
+                        .font(.title2)
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 10)
+                    
+                    Text(selectedCharacter.description)
+                    Spacer()
+                }
+            }
+            .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 150)
             
             if viewModel.isLoading {
                 loadingSection
@@ -60,10 +66,9 @@ struct ComicsView: View {
                 }
                 else
                 {
-                    
                     List {
                         ForEach(viewModel.comics, id: \.id, content: { comics in
-                            NavigationLink(destination: ComicsDetailsView(comics), label: {
+                            NavigationLink(destination: ComicsDetailsView(comics).environmentObject(viewModel), label: {
                                 HStack(alignment: .center , spacing: 10, content: {
                                     AsyncImage(url: URL(string: "\(comics.img.path.secure).\(comics.img.ext)"),
                                                content: { image in
@@ -75,13 +80,13 @@ struct ComicsView: View {
                                     })
                                     .frame(width: 120, height: 120)
                                     .scaledToFit()
-                                    .cornerRadius(10)
+                                    //                                    .cornerRadius(10)
                                     
                                     VStack {
                                         Spacer()
                                         Text(comics.title)
                                             .fontWeight(.semibold)
-                                            .font(.title2)
+                                            .font(.title3)
                                             .frame(maxWidth: .infinity)
                                         
                                         Spacer()
@@ -92,11 +97,15 @@ struct ComicsView: View {
                                 })
                             })
                         })
-                        .listRowBackground(Color("backgroundColor"))
+                        .listRowBackground(Constants.backgroundColor)
                     }
+                    
+                    .listStyle(.plain)
                 }
             }
         }
+        .background(Constants.backgroundColor)
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
