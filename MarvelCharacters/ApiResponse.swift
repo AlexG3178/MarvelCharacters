@@ -106,11 +106,12 @@ struct ComicsDate: Codable {
 }
 
 struct Character: Codable {
+    
     var items: [CharacterItem]
 }
 
 struct CharacterItem: Codable, Hashable {
-//    var id: Int? = Int.random(in: 1..<1000000)
+    
     var resourceURI: String
     var name: String
 }

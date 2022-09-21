@@ -8,24 +8,28 @@
 import Foundation
 import Combine
 
+enum SortBy: String, CaseIterable, Identifiable {
+    var id: RawValue { rawValue }
+    
+    case name = "A-Z"
+    case date = "Date"
+}
+
 class ComicsViewModel: ObservableObject {
     
     @Published var isLoading: Bool = true
-    @Published var comics = [ComicsResult]()
-    let publicKey = "30dfbad9a125327399061356af3e8e70"
-    let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
+    @Published var selection: SortBy = .name
+    var comics = [ComicsResult]()
+//    let publicKey = "30dfbad9a125327399061356af3e8e70"
+//    let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
     var cancellables = Set<AnyCancellable>()
-    
-//    init(_ comicsURI: String) {
-//        loadData(comicsURI)
-//    }
         
     func loadData(_ comicsURI: String) {
 
-        let ts = String(Int(Date().timeIntervalSinceNow))
-        let hash = Utils.md5Hash("\(ts)\(privateKey)\(publicKey)")
+//        let ts = String(Int(Date().timeIntervalSinceNow))
+//        let hash = Utils.md5Hash("\(ts)\(Keys.shared.privateKey)\(Keys.shared.publicKey)")
 
-        guard let url = URL(string: "\(comicsURI.secure)?ts=\(ts)&apikey=\(publicKey)&hash=\(hash)") else {
+        guard let url = URL(string: "\(comicsURI.secure)?ts=\(Helper.ts)&apikey=\(Keys.shared.publicKey)&hash=\(Helper.hash)") else {
             print("Invalid URL")
             return
         }
@@ -53,6 +57,34 @@ class ComicsViewModel: ObservableObject {
                 self?.isLoading = false
             }
             .store(in: &cancellables)
+    }
+    
+    func sortComics() {
+        switch selection {
+        case .name:
+            comics.sort {
+                $0.title.lowercased() < $1.title.lowercased()
+            }
+            
+//            comics.sort {
+//                let ind = $0.dates.firstIndex { date in
+//                    date.type == "focDate"
+//                }
+//                return Helper.formatIsoDate($0.dates[ind ?? 1].date) < Helper.formatIsoDate($1.dates[ind ?? 1].date)
+//            }
+        case .date:
+            
+            comics.sort {
+                $0.title.lowercased() > $1.title.lowercased()
+            }
+//
+//            comics.sort {
+//                let ind = $0.dates.firstIndex { date in
+//                    date.type == "focDate"
+//                }
+//                return Helper.formatIsoDate($0.dates[ind ?? 1].date) < Helper.formatIsoDate($1.dates[ind ?? 1].date)
+//            }
+        }
     }
     
     

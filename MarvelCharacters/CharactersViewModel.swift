@@ -12,8 +12,8 @@ class CharactersViewModel: ObservableObject {
     
     @Published var isLoading: Bool = true
     @Published var characters = [CharacterResult]()
-    let publicKey = "30dfbad9a125327399061356af3e8e70"
-    let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
+//    let publicKey = "30dfbad9a125327399061356af3e8e70"
+//    let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
     var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -23,10 +23,10 @@ class CharactersViewModel: ObservableObject {
     
     func loadData() {
 
-        let ts = String(Int(Date().timeIntervalSinceNow))
-        let hash = Utils.md5Hash("\(ts)\(privateKey)\(publicKey)")
+//        let ts = String(Int(Date().timeIntervalSinceNow))
+//        let hash = Utils.md5Hash("\(ts)\(Keys.shared.privateKey)\(Keys.shared.publicKey)")
 
-        guard let url = URL(string: "https://gateway.marvel.com/v1/public/characters?ts=\(ts)&apikey=\(publicKey)&hash=\(hash)") else {
+        guard let url = URL(string: "https://gateway.marvel.com/v1/public/characters?ts=\(Helper.ts)&apikey=\(Keys.shared.publicKey)&hash=\(Helper.hash)") else {
             print("Invalid URL")
             return
         }

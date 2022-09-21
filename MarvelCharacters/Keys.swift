@@ -6,3 +6,22 @@
 //
 
 import Foundation
+
+class Keys {
+    
+    public static let shared: Keys = Keys()
+    private(set) var publicKey: String = ""
+    private(set) var privateKey: String = ""
+    
+    private init () {
+        
+        guard let path = Bundle.main.path(forResource: "keys", ofType: "plist"),
+              let dict = NSDictionary(contentsOfFile: path)
+        else {
+            return
+        }
+        
+        publicKey = dict["publicKey"] as? String ?? ""
+        privateKey = dict["privateKey"] as? String ?? ""
+    }
+}

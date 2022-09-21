@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ComicsView_Previews: PreviewProvider {
     static var previews: some View {
@@ -21,7 +22,6 @@ struct ComicsView: View {
     init(_ character: CharacterResult) {
         self.selectedCharacter = character
         viewModel.loadData(character.comics.collectionURI)
-//        self.viewModel = ComicsViewModel(character.comics.collectionURI)
     }
     
     var body: some View {
@@ -56,6 +56,26 @@ struct ComicsView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 150)
             
+            .navigationBarItems(trailing:
+                                    Picker(
+                                        selection: $viewModel.selection,
+                                        label: Text("Picker"),
+                                        content: {
+                                            ForEach(SortBy.allCases) { val in
+                                                Text(val.rawValue)
+                                                    .tag(val)
+                                            }
+                                        }
+                                    )
+                                        .pickerStyle(.segmented)
+                                        .accentColor(.red)
+                                
+                                
+                                        .onReceive(Just(viewModel.selection), perform: { _ in
+                                            viewModel.sortComics()
+                                        })
+            )
+            
             if viewModel.isLoading {
                 loadingSection
             }
@@ -84,13 +104,15 @@ struct ComicsView: View {
                                     
                                     VStack {
                                         Spacer()
-                                        Text(comics.title)
+                                        let index = comics.title.firstIndex(of: "#")
+                                        Text(comics.title.prefix(upTo: index ?? comics.title.endIndex))
                                             .fontWeight(.semibold)
-                                            .font(.title3)
+                                            .font(.headline)
                                             .frame(maxWidth: .infinity)
                                         
                                         Spacer()
                                         Text(comics.description ?? "")
+                                            .font(.system(size: 13))
                                         Spacer()
                                     }
                                     .lineLimit(2)
@@ -99,7 +121,6 @@ struct ComicsView: View {
                         })
                         .listRowBackground(Constants.backgroundColor)
                     }
-                    
                     .listStyle(.plain)
                 }
             }
