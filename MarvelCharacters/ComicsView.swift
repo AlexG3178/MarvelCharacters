@@ -21,40 +21,47 @@ struct ComicsView: View {
     
     init(_ character: CharacterResult) {
         self.selectedCharacter = character
-        viewModel.loadData(character.comics.collectionURI)
+//        viewModel.loadData(character.comics.collectionURI)
     }
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 0) {
             
-            Spacer(minLength: 70)
+//            Spacer(minLength: 40)
             
-            ZStack(alignment: .top) {
-                
+            ZStack() {
                 AsyncImage(url: URL(string: "\(selectedCharacter.img.path.secure).\(selectedCharacter.img.ext)"),
                            content: { image in
                     image.resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 250)
+                        .clipped()
                 }, placeholder: {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                        .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
                         .scaleEffect(2)
                 })
-                .scaledToFill()
-                .frame(maxWidth: UIScreen.main.bounds.width)
                 
-                VStack(spacing: 20) {
+                VStack(spacing: 0) {
                     Text("\(selectedCharacter.name) comics")
                         .fontWeight(.semibold)
                         .font(.title2)
                         .frame(maxWidth: .infinity)
-                        .padding(.top, 10)
-                    
+                        .padding()
+                    ScrollView {
                     Text(selectedCharacter.description)
+                            
+                    }
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
+                    .padding(.bottom, 10)
                     Spacer()
                 }
+                .frame(height: 249)
+                .background(.white.opacity(0.7))
             }
-            .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 150)
+            .frame(height: 250)
             
             .navigationBarItems(trailing:
                                     Picker(
@@ -95,13 +102,13 @@ struct ComicsView: View {
                                         image.resizable()
                                     }, placeholder: {
                                         ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
                                             .scaleEffect(2)
                                     })
                                     .frame(width: 120, height: 120)
                                     .scaledToFit()
                                     //                                    .cornerRadius(10)
-                                    
+
                                     VStack {
                                         Spacer()
                                         let index = comics.title.firstIndex(of: "#")
@@ -109,7 +116,7 @@ struct ComicsView: View {
                                             .fontWeight(.semibold)
                                             .font(.headline)
                                             .frame(maxWidth: .infinity)
-                                        
+
                                         Spacer()
                                         Text(comics.description ?? "")
                                             .font(.system(size: 13))
@@ -135,7 +142,7 @@ private var loadingSection: some View {
         Color(.systemBackground)
             .ignoresSafeArea()
         ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+            .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
             .scaleEffect(4)
     }
 }

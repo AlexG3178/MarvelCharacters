@@ -62,6 +62,19 @@ class ComicsViewModel: ObservableObject {
     func sortComics() {
         switch selection {
         case .name:
+//            comics.sort {
+//                $0.title.lowercased() < $1.title.lowercased()
+//            }
+            
+            comics.sort {
+                let ind = $0.dates.firstIndex { date in
+                    date.type == "focDate"
+                }
+                return Helper.formatIsoDate($0.dates[ind ?? 1].date) < Helper.formatIsoDate($1.dates[ind ?? 1].date)
+            }
+            print(comics)
+        case .date:
+            
             comics.sort {
                 $0.title.lowercased() < $1.title.lowercased()
             }
@@ -72,18 +85,7 @@ class ComicsViewModel: ObservableObject {
 //                }
 //                return Helper.formatIsoDate($0.dates[ind ?? 1].date) < Helper.formatIsoDate($1.dates[ind ?? 1].date)
 //            }
-        case .date:
-            
-            comics.sort {
-                $0.title.lowercased() > $1.title.lowercased()
-            }
-//
-//            comics.sort {
-//                let ind = $0.dates.firstIndex { date in
-//                    date.type == "focDate"
-//                }
-//                return Helper.formatIsoDate($0.dates[ind ?? 1].date) < Helper.formatIsoDate($1.dates[ind ?? 1].date)
-//            }
+            print(comics)
         }
     }
     

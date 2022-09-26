@@ -6,9 +6,12 @@
 //
 
 import XCTest
+import Combine
 @testable import MarvelCharacters
 
 class MarvelCharactersTests: XCTestCase {
+    
+    var cancelables = Set<AnyCancellable>()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -18,19 +21,54 @@ class MarvelCharactersTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func test_MockCharactersViewModel_returnValues() {
+        
+        let viewModel = MockCharactersViewModel(characters: nil)
+        let expectation = XCTestExpectation()
+        var characters: [CharacterResult]? = []
+        
+        viewModel.loadData()
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    expectation.fulfill()
+                case .failure:
+                    XCTFail()                }
+            } receiveValue: { receivedCharacters in
+                characters = receivedCharacters
+                expectation.fulfill()
+            }
+            .store(in: &cancelables)
+        
+        wait(for: [expectation], timeout: 5)
+        XCTAssertEqual(viewModel.characters.count, characters?.count)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_MockCharactersViewModel_fail() {
+        
+        let viewModel = MockCharactersViewModel(characters: [])
+        let expectation1 = XCTestExpectation(description: "throw an error")
+        let expectation2 = XCTestExpectation(description: "throw URLError.badServerResponse")
+        var characters: [CharacterResult]? = []
+        
+        viewModel.loadData()
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    XCTFail()
+                case .failure(let error):
+                    expectation1.fulfill()
+                    if error as? URLError == URLError(.badServerResponse) {
+                        expectation2.fulfill()
+                    }
+                }
+            } receiveValue: { receivedCharacters in
+                characters = receivedCharacters
+                expectation1.fulfill()
+            }
+            .store(in: &cancelables)
+        
+        wait(for: [expectation1, expectation2], timeout: 5)
+        XCTAssertEqual(viewModel.characters.count, characters?.count)
     }
-
 }

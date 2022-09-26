@@ -115,3 +115,12 @@ struct CharacterItem: Codable, Hashable {
     var resourceURI: String
     var name: String
 }
+
+// MARK: - ERROR
+
+struct ApiError: Codable {
+    
+    var code: String
+    var message: String
+}
+

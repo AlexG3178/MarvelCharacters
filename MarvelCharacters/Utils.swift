@@ -8,6 +8,15 @@
 import Foundation
 import CryptoKit
 
+enum ErrorCodes: Int {
+//    case none = 0
+    case invalidHashRefer = 401
+    case forbidden = 403
+    case methodNotAllowed = 405
+    case missingKeyHashTs = 409
+    case requestThrottled = 429 // You have exceeded your rate limit. Please try again later.
+}
+
 class Utils: NSObject {
     
     class func md5Hash(_ source: String) -> String {

@@ -16,12 +16,12 @@ struct ComicsDetailsView_Previews: PreviewProvider {
 struct ComicsDetailsView: View {
     
     let selectedComics: ComicsResult
-    var viewModel: CharactersDetailsViewModel
+    var viewModel: ComicsDetailsViewModel
     @EnvironmentObject var comicsViewModel: ComicsViewModel
     
     init(_ comics: ComicsResult) {
         self.selectedComics = comics
-        self.viewModel = CharactersDetailsViewModel(comics)
+        self.viewModel = ComicsDetailsViewModel(comics)
     }
     
     var body: some View {
@@ -36,7 +36,7 @@ struct ComicsDetailsView: View {
                     image.resizable()
                 }, placeholder: {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                        .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
                         .scaleEffect(2)
                 })
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
@@ -77,7 +77,7 @@ struct ComicsDetailsView: View {
                                         image.resizable()
                                     }, placeholder: {
                                         ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
                                             .scaleEffect(2)
                                     })
                                     .frame(width: 170, height: 170)
@@ -105,7 +105,7 @@ private var loadingSection: some View {
         Color(.systemBackground)
             .ignoresSafeArea()
         ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+            .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
             .scaleEffect(4)
     }
 }

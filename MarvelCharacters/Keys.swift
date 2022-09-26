@@ -15,7 +15,7 @@ class Keys {
     
     private init () {
         
-        guard let path = Bundle.main.path(forResource: "keys", ofType: "plist"),
+        guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path)
         else {
             return

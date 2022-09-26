@@ -12,19 +12,16 @@ class CharactersViewModel: ObservableObject {
     
     @Published var isLoading: Bool = true
     @Published var characters = [CharacterResult]()
-//    let publicKey = "30dfbad9a125327399061356af3e8e70"
-//    let privateKey = "da550749d1b076b042d49b372f05c2bf8b09d0e0"
+    @Published var showAlert: Bool = false
+//    @Published var error: ErrorCodes? = nil
+    @Published var error: ApiError? = nil
     var cancellables = Set<AnyCancellable>()
     
     init() {
         loadData()
     }
     
-    
     func loadData() {
-
-//        let ts = String(Int(Date().timeIntervalSinceNow))
-//        let hash = Utils.md5Hash("\(ts)\(Keys.shared.privateKey)\(Keys.shared.publicKey)")
 
         guard let url = URL(string: "https://gateway.marvel.com/v1/public/characters?ts=\(Helper.ts)&apikey=\(Keys.shared.publicKey)&hash=\(Helper.hash)") else {
             print("Invalid URL")
@@ -43,8 +40,16 @@ class CharactersViewModel: ObservableObject {
                 guard let response = response as? HTTPURLResponse,
                       response.statusCode >= 200 && response.statusCode < 300
                 else {
+//                    self.showAlert = true
+//                    self.error = ErrorCodes(rawValue: (response as? HTTPURLResponse)?.statusCode ?? 0) ?? .none
+                    self.catchError(data)
                     throw URLError(.badServerResponse)
                 }
+                
+                if response.statusCode < 200 && response.statusCode >= 300 {
+                    
+                }
+                
                 return data
             }
             .decode(type: CharactersResponse.self, decoder: JSONDecoder())
@@ -54,5 +59,11 @@ class CharactersViewModel: ObservableObject {
                 self?.isLoading = false
             }
             .store(in: &cancellables)
+    }
+    
+    func catchError(_ data: Data) {
+        guard let response = try? JSONDecoder().decode(ApiError.self, from: data) else { return }
+        self.error = response
+        showAlert = true
     }
 }

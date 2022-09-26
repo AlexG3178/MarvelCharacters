@@ -34,6 +34,11 @@ struct ContentView: View {
         
         if viewModel.isLoading {
             loadingSection
+                .alert(isPresented: $viewModel.showAlert, content: {
+                    Alert(title: Text("Error"), message: Text("success message"), dismissButton: .default(Text("OK"), action: {
+                        exit(0)
+                    }))
+                })
         }
         else
         {
@@ -55,7 +60,7 @@ struct ContentView: View {
                                             image.resizable()
                                         }, placeholder: {
                                             ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                                .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
                                                 .scaleEffect(2)
                                         })
                                         .frame(width: 120, height: 120)
@@ -92,10 +97,10 @@ struct ContentView: View {
 
 private var loadingSection: some View {
     ZStack {
-        Color(.systemBackground)
+        Color("redMarvel")
             .ignoresSafeArea()
         ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .green))
+            .progressViewStyle(CircularProgressViewStyle(tint: Constants.progressIndicatorColor))
             .scaleEffect(4)
     }
 }

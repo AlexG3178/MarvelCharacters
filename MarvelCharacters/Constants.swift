@@ -11,4 +11,5 @@ import SwiftUI
 struct Constants {
     
     static let backgroundColor = Color("backgroundColor")
+    static let progressIndicatorColor = Color("progressIndicatorTint")
 }
